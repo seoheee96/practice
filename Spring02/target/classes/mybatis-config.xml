@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- Oracle 데이터베이스의 테이블 이름, 컬럼 이름들을 상수로 정의 -->
+    <properties>
+        <property name="tbl_boards" value="boards"/>
+        <property name="col_bno" value="bno"/>
+        <property name="col_title" value="title"/>
+        <property name="col_content" value="content"/>
+        <property name="col_userid" value="userid"/>
+        <property name="col_regdate" value="reg_date"/>
+        <property name="col_replycnt" value="reply_cnt"/>
+        <property name="col_attachment" value="attachment"/>
+        
+        <property name="tbl_replies" value="replies"/>
+        <property name="col_rno" value="rno"/>
+        <property name="col_rtext" value="rtext"/>
+        <property name="col_r_regdate" value="regdate"/>
+        
+        <property name="tbl_users" value="users"/>
+    </properties>
+
+    <typeAliases>
+        <package name="edu.spring.ex02.domain" />
+    </typeAliases>
+
+</configuration>

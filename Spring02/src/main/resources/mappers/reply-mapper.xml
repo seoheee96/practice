@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.spring.ex02.mappers.ReplyMapper">
+
+    <insert id="create">
+    insert into ${tbl_replies} (${col_rtext}, ${col_userid}, ${col_bno})
+    values (#{rtext}, #{userid}, #{bno})
+    </insert>
+
+    <select id="readByBno" resultType="Reply">
+    select * from ${tbl_replies}
+    where ${col_bno} = #{bno}
+    order by ${col_rno} desc
+    </select>
+
+    <update id="updateRtext">
+    update ${tbl_replies}
+    set ${col_rtext} = #{rtext}, ${col_r_regdate}  = sysdate
+    where ${col_rno} = #{rno}
+    </update>
+    
+    <delete id="delete">
+    delete from ${tbl_replies}
+    where ${col_rno} = #{rno}
+    </delete>
+    
+    <select id="readBno" resultType="java.lang.Integer">
+    select ${col_bno} from ${tbl_replies}
+    where ${col_rno} = #{rno}
+    </select>
+    
+</mapper>

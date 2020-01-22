@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+    xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+    <!-- Oracle DataSource(Database Connection Pool) 객체(bean) 설정 -->
+    <bean id="ds" 
+        class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName"
+            value="oracle.jdbc.OracleDriver" />
+        <property name="url" 
+            value="jdbc:oracle:thin:@localhost:1521:xe" />
+        <property name="username" value="scott" />
+        <property name="password" value="tiger" />
+    </bean>
+    
+    <!-- MyBatis 프레임워크에서 사용할 SqlSession을 생성하기 위해서 필요한 객체 -->
+    <bean id="sqlSessionFactory"
+        class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="ds" />
+        <property name="configLocation"
+            value="classpath:/mybatis-config.xml" />
+        <property name="mapperLocations"
+            value="classpath:/mappers/*.xml" />
+    </bean>
+    
+    <!-- SqlSession 객체: SQL 문장 실행/결과 처리 등을 담당 -->
+    <bean id="sqlSession"
+        class="org.mybatis.spring.SqlSessionTemplate"
+        destroy-method="clearCache">
+        <constructor-arg name="sqlSessionFactory" 
+            ref="sqlSessionFactory" />
+    </bean>
+    
+    <!-- Spring 프레임워크가 base-package 아래의 콤포넌트들을 검색해서
+    bean(자바 객체)으로 생성/관리.
+    해당 패키지 아래의 클래스에서는 콤포넌트 어노테이션이 사용되어야 함. -->
+    <context:component-scan base-package="edu.spring.ex02">
+        <context:exclude-filter type="annotation" 
+            expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    
+    <!-- 해당 패키지와 그 하위 패키지 안에서 Mapper 인터페이스를 찾아서 객체 생성 및 관리 -->
+    <mybatis-spring:scan base-package="edu.spring.ex02.mappers"/>
+    
+</beans>
